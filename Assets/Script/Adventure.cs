@@ -28,6 +28,12 @@ public class Adventure : MonoBehaviour {
 		else if (CurState == States.AtWindow) {
 			AtWindow ();
 		}
+		else if (CurState == States.AtBed) {
+			AtBed ();
+		}
+		else if (CurState == States.CellDoor) {
+			CellDoor ();
+		}
 
 
 	}
@@ -42,7 +48,8 @@ public class Adventure : MonoBehaviour {
 	private void AtWindow()
 	{
 		print ("The window is just large enough to squeeze through. Climb through window (W) Go back to cell (S) Go to bed (A) Go to door (D)");
-		if (Input.GetKeyDown(KeyCode.W)) {print ("You climb out the window and fall to your death");}
+		if (Input.GetKeyDown (KeyCode.W)) {
+			print ("You climb out the window and fall to your death"); Start ();}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Cell;} 
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.AtBed;}
 		if (Input.GetKeyDown(KeyCode.D)) {CurState = States.CellDoor;}
@@ -51,10 +58,23 @@ public class Adventure : MonoBehaviour {
 	private void CellDoor()
 	{
 		print ("The door has a handle. Go to window (W) Go back to cell (S) Go to bed (A) Try the handle (D)");
-		if (Input.GetKeyDown(KeyCode.W)) {print ("The door opens."); CurState = States.HallWay;}
+		if (Input.GetKeyDown(KeyCode.D)) {print ("The door opens."); CurState = States.HallWay;}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Cell;} 
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.AtBed;}
-		if (Input.GetKeyDown(KeyCode.D)) {CurState = States.CellDoor;}
+		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.AtWindow;}
+
+	}
+	private void AtBed()
+	{
+		print ("There's an old rusty key under the bed. Go to window (W) Go back to cell (S) Go to door (A) Grab the key (D)");
+		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.AtWindow;}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Cell;} 
+		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.CellDoor;}
+		if (Input.GetKeyDown(KeyCode.D)) {if (HasCheese == true) {
+				HasKey = true;
+				print ("You place the cheese down and the rat runs out to grab it. You quickly grab the key.");
+			} else {
+			print ("A rat jumps out of the bed and bites you. You get infected and die"); Start ();}}
 
 	}
 }
