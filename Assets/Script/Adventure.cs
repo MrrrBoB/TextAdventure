@@ -34,6 +34,12 @@ public class Adventure : MonoBehaviour {
 		else if (CurState == States.CellDoor) {
 			CellDoor ();
 		}
+		else if (CurState == States.HallWay) {
+			HallWay ();
+		}
+		else if (CurState == States.LeftCor) {
+			LeftCor ();
+		}
 
 
 	}
@@ -76,5 +82,19 @@ public class Adventure : MonoBehaviour {
 			} else {
 			print ("A rat jumps out of the bed and bites you. You get infected and die"); Start ();}}
 
+	}
+	private void HallWay()
+	{
+		print ("You reach a fork in the hallway. There is a path straight forward, as well as one to the left and right. Go left (A) Go Straight (W) Go right (D) Go back (S)");
+		if (Input.GetKeyDown(KeyCode.D)) {CurState = States.RightCor;}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.CellDoor;} 
+		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.LeftCor;}
+		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.CenterCor;}
+
+	}
+	private void LeftCor ()
+	{
+	print("As you round the corner, a guard turns to face you. You are returned to your cell");
+		CurState = States.Cell;
 	}
 }
