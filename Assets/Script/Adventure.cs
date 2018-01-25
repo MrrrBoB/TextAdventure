@@ -25,6 +25,7 @@ public class Adventure : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		
 		if (CurState == States.Cell) {
 			Cell ();
 		} else if (CurState == States.AtWindow) {
@@ -43,6 +44,8 @@ public class Adventure : MonoBehaviour {
 		 	RightCor ();
 		} else if (CurState == States.Courtyard) {
 			Courtyard ();
+		} else if (CurState == States.Gate) {
+			Gate ();
 		}
 
 
@@ -123,6 +126,14 @@ public class Adventure : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.A)) {if (HasSword) { print ("While you sneak up on the guard, you drop your sword waking him up. You are returned to your cell"); Start ();} else {print ("You sneak up to the guard and strangle him to death"); GuardDead=true;}}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.RightCor;} 
 		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.Gate;}
+
+	}
+	private void Gate()
+	{
+		print ("You reach the gate. There is a mechanism used to hoist the gate up to your left.  \n Climb the gate (W) Try the mechanism (A) Return to Courtyard (S)");
+		if (Input.GetKeyDown(KeyCode.A)) {if (HasSword) { print ("You wedge the sword in the mechanism and use it as a lever to open the gate. You are finally free."); Start ();} else {print ("You try to pull the mechanism, but it won't budge");}}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Courtyard;} 
+		if (Input.GetKeyDown(KeyCode.W)) {print ("You climb up the gate and reach the top, but you startle a flock of birds, and as they fly away they wake up a nearby guard. You are returned to your cell"); Start ();}
 
 	}
 }
