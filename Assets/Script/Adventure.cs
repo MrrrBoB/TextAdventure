@@ -8,6 +8,8 @@ public class Adventure : MonoBehaviour {
 	public States CurState;
 	public bool HasKey;
 	public bool HasCheese;
+	public bool HasSword;
+	public bool GuardDead;
 
 	public int num_1;
 
@@ -16,7 +18,8 @@ public class Adventure : MonoBehaviour {
 		CurState = States.Cell;
 		HasKey = false;
 		HasCheese = false; 
-		
+		HasSword = false;
+		GuardDead = false;
 	}
 	
 	// Update is called once per frame
@@ -24,21 +27,22 @@ public class Adventure : MonoBehaviour {
 	{
 		if (CurState == States.Cell) {
 			Cell ();
-		} 
-		else if (CurState == States.AtWindow) {
+		} else if (CurState == States.AtWindow) {
 			AtWindow ();
-		}
-		else if (CurState == States.AtBed) {
+		} else if (CurState == States.AtBed) {
 			AtBed ();
-		}
-		else if (CurState == States.CellDoor) {
+		} else if (CurState == States.CellDoor) {
 			CellDoor ();
-		}
-		else if (CurState == States.HallWay) {
+		} else if (CurState == States.HallWay) {
 			HallWay ();
-		}
-		else if (CurState == States.LeftCor) {
+		} else if (CurState == States.LeftCor) {
 			LeftCor ();
+		} else if (CurState == States.CenterCor) {
+			CenterCor ();
+		} else if (CurState == States.RightCor) {
+		 	RightCor ();
+		} else if (CurState == States.Courtyard) {
+			Courtyard ();
 		}
 
 
@@ -46,7 +50,7 @@ public class Adventure : MonoBehaviour {
 	private void Cell()
 	{
 		print ("you wake up in a cell. There is a shabby bed, a small window, and an iron door \n"+
-			" Go to window (W) Go to bed (A) Go to door (D)");
+			"Go to window (W) Go to bed (A) Go to door (D)");
 		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.AtWindow;}
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.AtBed;} 
 		if (Input.GetKeyDown(KeyCode.D)) {CurState = States.CellDoor;}
@@ -63,7 +67,7 @@ public class Adventure : MonoBehaviour {
 	}
 	private void CellDoor()
 	{
-		print ("The door has a handle. Go to window (W) Go back to cell (S) Go to bed (A) Try the handle (D)");
+		print ("The door has a handle. \n Go to window (W) Go back to cell (S) Go to bed (A) Try the handle (D)");
 		if (Input.GetKeyDown(KeyCode.D)) {print ("The door opens."); CurState = States.HallWay;}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Cell;} 
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.AtBed;}
@@ -72,7 +76,7 @@ public class Adventure : MonoBehaviour {
 	}
 	private void AtBed()
 	{
-		print ("There's an old rusty key under the bed. Go to window (W) Go back to cell (S) Go to door (A) Grab the key (D)");
+		print ("There's an old rusty key under the bed.\n Go to window (W) Go back to cell (S) Go to door (A) Grab the key (D)");
 		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.AtWindow;}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.Cell;} 
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.CellDoor;}
@@ -85,7 +89,7 @@ public class Adventure : MonoBehaviour {
 	}
 	private void HallWay()
 	{
-		print ("You reach a fork in the hallway. There is a path straight forward, as well as one to the left and right. Go left (A) Go Straight (W) Go right (D) Go back (S)");
+		print ("You reach a fork in the hallway. There is a path straight forward, as well as one to the left and right.\n Go left (A) Go Straight (W) Go right (D) Go back (S)");
 		if (Input.GetKeyDown(KeyCode.D)) {CurState = States.RightCor;}
 		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.CellDoor;} 
 		if (Input.GetKeyDown(KeyCode.A)) {CurState = States.LeftCor;}
@@ -96,5 +100,29 @@ public class Adventure : MonoBehaviour {
 	{
 	print("As you round the corner, a guard turns to face you. You are returned to your cell");
 		CurState = States.Cell;
+	}
+	private void CenterCor()
+	{
+		print ("The hallway ends in a dead end. In the corner you find a slice of cheese, and a sword.\n Grab the cheese (A) Grab the sword (D) Return to the fork (S)");
+		if (Input.GetKeyDown(KeyCode.D)) {if (!HasSword) {HasSword = true; print ("You pick up the sword");} else {print ("you already have a sword");}}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.HallWay;} 
+		if (Input.GetKeyDown(KeyCode.A)) {if (!HasCheese) {HasCheese = true; print ("You pick up the cheese");} else {print ("you already have a piece of cheese");}}
+
+	}
+	private void RightCor()
+	{
+		print ("There is a door at the end of this hallway.\n Try the handle (W) return to fork (S)");
+		if (Input.GetKeyDown(KeyCode.W)) {if (!HasKey) { print ("The door is locked, you must find a key");} else {print ("You use they key you found under the bed, and the door swings open"); CurState = States.Courtyard;}}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.HallWay;} 
+
+
+	}
+	private void Courtyard()
+	{
+		print ("You are in a large courtyard. It's mostly empty save a guard who is asleep. \n Tackle the guard (A) Walk past the guard (W) Go back into the hall (S)");
+		if (Input.GetKeyDown(KeyCode.A)) {if (HasSword) { print ("While you sneak up on the guard, you drop your sword waking him up. You are returned to your cell"); Start ();} else {print ("You sneak up to the guard and strangle him to death"); GuardDead=true;}}
+		if (Input.GetKeyDown(KeyCode.S)) {CurState = States.RightCor;} 
+		if (Input.GetKeyDown(KeyCode.W)) {CurState = States.Gate;}
+
 	}
 }
