@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 40b5c93056d802e46aa9bf55ce2dd04a
+timeCreated: 1517243447
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Mina is gone
+  fontNames:
+  - Mina is gone
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
